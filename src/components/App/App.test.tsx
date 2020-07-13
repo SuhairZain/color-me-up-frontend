@@ -7,19 +7,9 @@ import App from "./App";
 describe("App", () => {
     afterEach(cleanup);
 
-    it("renders the dummy tiles", () => {
+    it("renders the App div", () => {
         const { container } = render(<App />);
 
-        const rows: HTMLDivElement[] = Array.from(
-            container.querySelectorAll(".Row")
-        );
-        expect(rows.length).toBe(4);
-
-        rows.forEach((row) => {
-            expect(row.style.flexDirection).toBe("row");
-            expect(Array.from(row.querySelectorAll(".Tile")).length).toBe(4);
-        });
-
-        expect(Array.from(container.querySelectorAll(".Tile")).length).toBe(16);
+        expect(container.querySelector("div.App")).toBeInTheDocument();
     });
 });
