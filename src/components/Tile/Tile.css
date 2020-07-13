@@ -7,6 +7,10 @@
     width: 40px;
 }
 
+.Tile.Enabled {
+    cursor: pointer;
+}
+
 .Tile:last-child {
     border-right: var(--border);
 }
