@@ -1,0 +1,15 @@
+.SpaceOccupyingHiddenElement.Hidden {
+    display: none;
+}
+
+.SpaceOccupyingHiddenElement.AlwaysOccupySpace.Hidden {
+    display: unset;
+    visibility: hidden;
+}
+
+@media screen and (min-width: 700px) and (min-width: 700px) {
+    .SpaceOccupyingHiddenElement.Hidden {
+        display: unset;
+        visibility: hidden;
+    }
+}
