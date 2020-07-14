@@ -207,11 +207,11 @@ class App extends PureComponent<Props, State> {
                         <img
                             src={require("./origin_arrow.png")}
                             style={{
-                                width: 25,
-                                height: 37,
+                                width: 43,
+                                height: 113,
                                 position: "absolute",
-                                top: -20,
-                                left: -24,
+                                top: -14,
+                                left: -32,
                                 display: showGameGoalMessage ? "unset" : "none",
                             }}
                             alt="This is the origin tile"
