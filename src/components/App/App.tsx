@@ -21,6 +21,7 @@ type State = {
     fetchBoardOp: Operation<Board>;
     board: Board | undefined;
     steps: number;
+    fetchAiPlayerSteps: Operation<Color[]>;
 };
 
 class App extends PureComponent<Props, State> {
@@ -31,6 +32,7 @@ class App extends PureComponent<Props, State> {
             fetchBoardOp: {},
             board: undefined,
             steps: 0,
+            fetchAiPlayerSteps: {},
         };
     }
 
@@ -54,6 +56,30 @@ class App extends PureComponent<Props, State> {
         this.fetchBoardFromBackend();
     }
 
+    fetchAiPlayerSteps = async () => {
+        if (!gameWon(this.state.board!)) {
+            return;
+        }
+
+        const originalBoard = this.state.fetchBoardOp.result!;
+
+        this.setState({ fetchAiPlayerSteps: { ongoing: true } });
+
+        const colors = (await API.aiPlay(originalBoard)).data;
+
+        const { board: boardAfterAiPlayRequest } = this.state;
+
+        // The user could've restarted the game by the time the request finished
+        if (!boardAfterAiPlayRequest || !gameWon(boardAfterAiPlayRequest)) {
+            this.setState({ fetchAiPlayerSteps: {} });
+            return;
+        }
+
+        this.setState({
+            fetchAiPlayerSteps: { result: colors },
+        });
+    };
+
     changeColor = (board: Board, color: Color) => {
         const originTile = board.tiles[0][0];
 
@@ -61,10 +87,54 @@ class App extends PureComponent<Props, State> {
             return;
         }
 
-        this.setState({
-            board: selectColor(board, color),
-            steps: this.state.steps + 1,
-        });
+        this.setState(
+            {
+                board: selectColor(board, color),
+                steps: this.state.steps + 1,
+            },
+            this.fetchAiPlayerSteps
+        );
+    };
+
+    renderAiPlayerMessage = (board: Board) => {
+        const { fetchAiPlayerSteps, steps } = this.state;
+
+        const aiPlayerColors = fetchAiPlayerSteps.result;
+
+        const gameFinished = gameWon(board);
+
+        const aiPlayerStepsReady = gameFinished && !!aiPlayerColors;
+        const aiPlayerSteps = aiPlayerColors?.length ?? steps;
+
+        const message =
+            steps === aiPlayerSteps
+                ? `You finished it in the same number of steps as our AI player. `
+                : steps < aiPlayerSteps
+                ? `Congrats, you played better than our AI player (${aiPlayerSteps} steps). `
+                : `Our AI player could do it in ${aiPlayerSteps} steps. `;
+
+        return (
+            <SpaceOccupyingHiddenElement visible={aiPlayerStepsReady}>
+                <span
+                    className="Title"
+                    style={{
+                        maxWidth: 600,
+                        textAlign: "center",
+                        marginTop: 16,
+                    }}
+                >
+                    {message}
+                    <a
+                        href="#aiPlayerSteps"
+                        onClick={(e) => {
+                            e.preventDefault();
+                        }}
+                    >
+                        See how we did it
+                    </a>
+                </span>
+            </SpaceOccupyingHiddenElement>
+        );
     };
 
     renderApp = () => {
@@ -143,6 +213,7 @@ class App extends PureComponent<Props, State> {
                 >
                     Steps: {steps}
                 </span>
+                {this.renderAiPlayerMessage(board)}
             </div>
         );
     };
