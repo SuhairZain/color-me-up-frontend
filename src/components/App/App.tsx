@@ -7,6 +7,7 @@ import { API } from "../../API";
 import { Board, Color, selectColor } from "color-me-up-shared";
 
 import BoardUi from "../BoardUi";
+import SpaceOccupyingHiddenElement from "../SpaceOccupyingHiddenElement";
 
 type Operation<T> = {
     ongoing?: boolean;
@@ -85,13 +86,39 @@ class App extends PureComponent<Props, State> {
             );
         }
 
+        const showGameGoalMessage = steps === 0;
+
         return (
-            <div>
-                <BoardUi
-                    board={board}
-                    enabled={true}
-                    onSelectTile={this.changeColor}
-                />
+            <div style={{ alignItems: "center", padding: "16px 4px" }}>
+                <SpaceOccupyingHiddenElement visible={showGameGoalMessage}>
+                    <span
+                        className="Title"
+                        style={{ textAlign: "center", maxWidth: 600 }}
+                    >
+                        Click on a tile to change the origin and its connected
+                        tiles to that color. Change all tiles to the same color
+                        to win.
+                    </span>
+                </SpaceOccupyingHiddenElement>
+                <div style={{ position: "relative", marginTop: 16 }}>
+                    <img
+                        src={require("./origin_arrow.png")}
+                        style={{
+                            width: 25,
+                            height: 37,
+                            position: "absolute",
+                            top: -20,
+                            left: -24,
+                            display: showGameGoalMessage ? "unset" : "none",
+                        }}
+                        alt="This is the origin tile"
+                    />
+                    <BoardUi
+                        board={board}
+                        enabled={true}
+                        onSelectTile={this.changeColor}
+                    />
+                </div>
                 <span
                     className="Body"
                     style={{ alignSelf: "center", marginTop: 8 }}
