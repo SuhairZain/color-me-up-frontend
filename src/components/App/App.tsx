@@ -8,6 +8,7 @@ import { Board, Color, selectColor, gameWon } from "color-me-up-shared";
 
 import BoardUi from "../BoardUi";
 import SpaceOccupyingHiddenElement from "../SpaceOccupyingHiddenElement";
+import AiPlayerView from "../AiPlayerView";
 
 type Operation<T> = {
     ongoing?: boolean;
@@ -22,6 +23,7 @@ type State = {
     board: Board | undefined;
     steps: number;
     fetchAiPlayerSteps: Operation<Color[]>;
+    showAiPlayerSteps: boolean;
 };
 
 class App extends PureComponent<Props, State> {
@@ -33,6 +35,7 @@ class App extends PureComponent<Props, State> {
             board: undefined,
             steps: 0,
             fetchAiPlayerSteps: {},
+            showAiPlayerSteps: false,
         };
     }
 
@@ -41,6 +44,7 @@ class App extends PureComponent<Props, State> {
             fetchBoardOp: { ongoing: true },
             board: undefined,
             steps: 0,
+            showAiPlayerSteps: false,
         });
 
         const board = (await API.start(6, 6)).data;
@@ -97,7 +101,7 @@ class App extends PureComponent<Props, State> {
     };
 
     renderAiPlayerMessage = (board: Board) => {
-        const { fetchAiPlayerSteps, steps } = this.state;
+        const { fetchAiPlayerSteps, steps, showAiPlayerSteps } = this.state;
 
         const aiPlayerColors = fetchAiPlayerSteps.result;
 
@@ -114,7 +118,9 @@ class App extends PureComponent<Props, State> {
                 : `Our AI player could do it in ${aiPlayerSteps} steps. `;
 
         return (
-            <SpaceOccupyingHiddenElement visible={aiPlayerStepsReady}>
+            <SpaceOccupyingHiddenElement
+                visible={aiPlayerStepsReady && !showAiPlayerSteps}
+            >
                 <span
                     className="Title"
                     style={{
@@ -128,6 +134,8 @@ class App extends PureComponent<Props, State> {
                         href="#aiPlayerSteps"
                         onClick={(e) => {
                             e.preventDefault();
+
+                            this.setState({ showAiPlayerSteps: true });
                         }}
                     >
                         See how we did it
@@ -138,7 +146,13 @@ class App extends PureComponent<Props, State> {
     };
 
     renderApp = () => {
-        const { board, steps, fetchBoardOp } = this.state;
+        const {
+            board,
+            steps,
+            fetchBoardOp,
+            showAiPlayerSteps,
+            fetchAiPlayerSteps,
+        } = this.state;
 
         if (fetchBoardOp.ongoing) {
             return (
@@ -188,31 +202,40 @@ class App extends PureComponent<Props, State> {
                         </a>
                     </span>
                 </SpaceOccupyingHiddenElement>
-                <div style={{ position: "relative", marginTop: 16 }}>
-                    <img
-                        src={require("./origin_arrow.png")}
-                        style={{
-                            width: 25,
-                            height: 37,
-                            position: "absolute",
-                            top: -20,
-                            left: -24,
-                            display: showGameGoalMessage ? "unset" : "none",
-                        }}
-                        alt="This is the origin tile"
-                    />
-                    <BoardUi
-                        board={board}
-                        enabled={!gameFinished}
-                        onSelectTile={this.changeColor}
-                    />
+                <div className="UserAndAiPlayerBoards">
+                    <div style={{ position: "relative" }}>
+                        <img
+                            src={require("./origin_arrow.png")}
+                            style={{
+                                width: 25,
+                                height: 37,
+                                position: "absolute",
+                                top: -20,
+                                left: -24,
+                                display: showGameGoalMessage ? "unset" : "none",
+                            }}
+                            alt="This is the origin tile"
+                        />
+                        <BoardUi
+                            board={board}
+                            enabled={!gameFinished}
+                            onSelectTile={this.changeColor}
+                        />
+                        <span
+                            className="Body"
+                            style={{ alignSelf: "center", marginTop: 8 }}
+                        >
+                            {showAiPlayerSteps ? "Your steps" : "Steps"}:{" "}
+                            {steps}
+                        </span>
+                    </div>
+                    {showAiPlayerSteps && fetchAiPlayerSteps.result && (
+                        <AiPlayerView
+                            originalBoard={this.state.fetchBoardOp.result!}
+                            steps={fetchAiPlayerSteps.result}
+                        />
+                    )}
                 </div>
-                <span
-                    className="Body"
-                    style={{ alignSelf: "center", marginTop: 8 }}
-                >
-                    Steps: {steps}
-                </span>
                 {this.renderAiPlayerMessage(board)}
             </div>
         );

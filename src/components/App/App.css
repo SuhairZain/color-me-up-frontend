@@ -40,3 +40,14 @@ div {
         margin-top: 0;
     }
 }
+
+.UserAndAiPlayerBoards {
+    margin-top: 16px;
+}
+
+@media screen and (min-width: 700px) {
+    .UserAndAiPlayerBoards {
+        flex-direction: row;
+        align-items: center;
+    }
+}

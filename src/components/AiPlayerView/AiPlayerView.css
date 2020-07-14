@@ -1,0 +1,13 @@
+.AiPlayerView {
+    margin-top: 16px;
+}
+
+@media screen and (min-width: 700px) {
+    .AiPlayerView {
+        --border: 1px solid #36454f;
+        margin-top: 0px;
+        margin-left: 32px;
+        padding-left: 32px;
+        border-left: var(--border);
+    }
+}
