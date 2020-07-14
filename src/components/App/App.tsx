@@ -19,6 +19,7 @@ type Props = {};
 type State = {
     fetchBoardOp: Operation<Board>;
     board: Board | undefined;
+    steps: number;
 };
 
 class App extends PureComponent<Props, State> {
@@ -28,6 +29,7 @@ class App extends PureComponent<Props, State> {
         this.state = {
             fetchBoardOp: {},
             board: undefined,
+            steps: 0,
         };
     }
 
@@ -35,6 +37,7 @@ class App extends PureComponent<Props, State> {
         this.setState({
             fetchBoardOp: { ongoing: true },
             board: undefined,
+            steps: 0,
         });
 
         const board = (await API.start(6, 6)).data;
@@ -59,11 +62,12 @@ class App extends PureComponent<Props, State> {
 
         this.setState({
             board: selectColor(board, color),
+            steps: this.state.steps + 1,
         });
     };
 
     renderApp = () => {
-        const { board, fetchBoardOp } = this.state;
+        const { board, steps, fetchBoardOp } = this.state;
 
         if (fetchBoardOp.ongoing) {
             return (
@@ -82,11 +86,19 @@ class App extends PureComponent<Props, State> {
         }
 
         return (
-            <BoardUi
-                board={board}
-                enabled={true}
-                onSelectTile={this.changeColor}
-            />
+            <div>
+                <BoardUi
+                    board={board}
+                    enabled={true}
+                    onSelectTile={this.changeColor}
+                />
+                <span
+                    className="Body"
+                    style={{ alignSelf: "center", marginTop: 8 }}
+                >
+                    Steps: {steps}
+                </span>
+            </div>
         );
     };
 

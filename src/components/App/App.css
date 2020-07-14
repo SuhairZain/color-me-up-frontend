@@ -8,6 +8,10 @@ div {
     flex-direction: column;
 }
 
+.Body {
+    font-size: 18px;
+}
+
 .Title {
     font-size: 22px;
     font-weight: bold;
@@ -18,6 +22,10 @@ div {
 }
 
 @media screen and (min-width: 700px) and (min-height: 800px) {
+    .Body {
+        font-size: 20px;
+    }
+
     .Title {
         font-size: 24px;
     }
