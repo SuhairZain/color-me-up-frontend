@@ -4,7 +4,7 @@ import "./App.css";
 
 import { API } from "../../API";
 
-import { Board, Color, selectColor } from "color-me-up-shared";
+import { Board, Color, selectColor, gameWon } from "color-me-up-shared";
 
 import BoardUi from "../BoardUi";
 import SpaceOccupyingHiddenElement from "../SpaceOccupyingHiddenElement";
@@ -86,6 +86,8 @@ class App extends PureComponent<Props, State> {
             );
         }
 
+        const gameFinished = gameWon(board);
+
         const showGameGoalMessage = steps === 0;
 
         return (
@@ -98,6 +100,22 @@ class App extends PureComponent<Props, State> {
                         Click on a tile to change the origin and its connected
                         tiles to that color. Change all tiles to the same color
                         to win.
+                    </span>
+                </SpaceOccupyingHiddenElement>
+                <SpaceOccupyingHiddenElement visible={gameFinished}>
+                    <span className="Title YouWon">
+                        You won!
+                        <a
+                            href="#restart"
+                            style={{ marginLeft: 8 }}
+                            onClick={(e) => {
+                                e.preventDefault();
+
+                                this.fetchBoardFromBackend();
+                            }}
+                        >
+                            Start another!
+                        </a>
                     </span>
                 </SpaceOccupyingHiddenElement>
                 <div style={{ position: "relative", marginTop: 16 }}>
@@ -115,7 +133,7 @@ class App extends PureComponent<Props, State> {
                     />
                     <BoardUi
                         board={board}
-                        enabled={true}
+                        enabled={!gameFinished}
                         onSelectTile={this.changeColor}
                     />
                 </div>
