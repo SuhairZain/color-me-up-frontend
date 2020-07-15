@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from "axios";
 
 import { Board, createBoard, playGame } from "color-me-up-shared";
 
+import { delay } from "./utils/delay";
+
 type ApiType = {
     start: (
         size: number,
@@ -19,14 +21,6 @@ const USE_FAKE_API =
         new URLSearchParams(window.location.search).get("offline") || "false"
     ) === true;
 const FAKE_API_DELAY = 1000;
-
-const delay = (delayInMs: number) => {
-    return new Promise((res) => {
-        setTimeout(() => {
-            res();
-        }, delayInMs);
-    });
-};
 
 function createFakeAxiosResponse<T>(result: T): AxiosResponse<T> {
     return {
