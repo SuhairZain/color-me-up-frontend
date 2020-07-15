@@ -27,6 +27,9 @@ type State = {
 };
 
 class App extends PureComponent<Props, State> {
+    /** TODO: Poor fix; move logic out of the component so that we can prevent component unmounted errors and also write better tests */
+    private mounted = false;
+
     constructor(props: Props) {
         super(props);
 
@@ -47,17 +50,32 @@ class App extends PureComponent<Props, State> {
             showAiPlayerSteps: false,
         });
 
-        const board = (await API.start(6, 6)).data;
-        this.setState({
-            fetchBoardOp: {
-                result: board,
-            },
-            board,
-        });
+        try {
+            const board = (await API.start(6, 6)).data;
+
+            if (!this.mounted) {
+                return;
+            }
+
+            this.setState({
+                fetchBoardOp: {
+                    result: board,
+                },
+                board,
+            });
+        } catch (error) {
+            this.setState({ fetchBoardOp: { error } });
+        }
     };
 
     componentDidMount() {
+        this.mounted = true;
+
         this.fetchBoardFromBackend();
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
     }
 
     fetchAiPlayerSteps = async () => {
@@ -69,19 +87,23 @@ class App extends PureComponent<Props, State> {
 
         this.setState({ fetchAiPlayerSteps: { ongoing: true } });
 
-        const colors = (await API.aiPlay(originalBoard)).data;
+        try {
+            const colors = (await API.aiPlay(originalBoard)).data;
 
-        const { board: boardAfterAiPlayRequest } = this.state;
+            const { board: boardAfterAiPlayRequest } = this.state;
 
-        // The user could've restarted the game by the time the request finished
-        if (!boardAfterAiPlayRequest || !gameWon(boardAfterAiPlayRequest)) {
-            this.setState({ fetchAiPlayerSteps: {} });
-            return;
+            // The user could've restarted the game by the time the request finished
+            if (!boardAfterAiPlayRequest || !gameWon(boardAfterAiPlayRequest)) {
+                this.setState({ fetchAiPlayerSteps: {} });
+                return;
+            }
+
+            this.setState({
+                fetchAiPlayerSteps: { result: colors },
+            });
+        } catch (error) {
+            this.setState({ fetchAiPlayerSteps: { error } });
         }
-
-        this.setState({
-            fetchAiPlayerSteps: { result: colors },
-        });
     };
 
     changeColor = (board: Board, color: Color) => {
