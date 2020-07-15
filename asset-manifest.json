@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/color-me-up-frontend/static/css/main.0699eb5d.chunk.css",
-    "main.js": "/color-me-up-frontend/static/js/main.0697f747.chunk.js",
-    "main.js.map": "/color-me-up-frontend/static/js/main.0697f747.chunk.js.map",
+    "main.css": "/color-me-up-frontend/static/css/main.a597bb94.chunk.css",
+    "main.js": "/color-me-up-frontend/static/js/main.cabb154a.chunk.js",
+    "main.js.map": "/color-me-up-frontend/static/js/main.cabb154a.chunk.js.map",
     "runtime-main.js": "/color-me-up-frontend/static/js/runtime-main.8e93a261.js",
     "runtime-main.js.map": "/color-me-up-frontend/static/js/runtime-main.8e93a261.js.map",
     "static/js/2.978d27e7.chunk.js": "/color-me-up-frontend/static/js/2.978d27e7.chunk.js",
     "static/js/2.978d27e7.chunk.js.map": "/color-me-up-frontend/static/js/2.978d27e7.chunk.js.map",
     "index.html": "/color-me-up-frontend/index.html",
-    "precache-manifest.a06d988ca1b67837ef1efb54479fbb40.js": "/color-me-up-frontend/precache-manifest.a06d988ca1b67837ef1efb54479fbb40.js",
+    "precache-manifest.f5796fef5a6cc8af31f38febbb57c57f.js": "/color-me-up-frontend/precache-manifest.f5796fef5a6cc8af31f38febbb57c57f.js",
     "service-worker.js": "/color-me-up-frontend/service-worker.js",
-    "static/css/main.0699eb5d.chunk.css.map": "/color-me-up-frontend/static/css/main.0699eb5d.chunk.css.map",
+    "static/css/main.a597bb94.chunk.css.map": "/color-me-up-frontend/static/css/main.a597bb94.chunk.css.map",
     "static/js/2.978d27e7.chunk.js.LICENSE.txt": "/color-me-up-frontend/static/js/2.978d27e7.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.8e93a261.js",
     "static/js/2.978d27e7.chunk.js",
-    "static/css/main.0699eb5d.chunk.css",
-    "static/js/main.0697f747.chunk.js"
+    "static/css/main.a597bb94.chunk.css",
+    "static/js/main.cabb154a.chunk.js"
   ]
 }
