@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "625e655fbc3a08fd4461b64bbd8e2e28",
+    "revision": "64034920909f2be6417bdddb8f6a2852",
     "url": "/color-me-up-frontend/index.html"
   },
   {
-    "revision": "6a2ce852242f4af5e489",
+    "revision": "6d4cd1c1c9196d5121a1",
     "url": "/color-me-up-frontend/static/css/main.a597bb94.chunk.css"
   },
   {
-    "revision": "568fa145c15c709e6e41",
-    "url": "/color-me-up-frontend/static/js/2.978d27e7.chunk.js"
+    "revision": "61d1531f88651d4d12d2",
+    "url": "/color-me-up-frontend/static/js/2.beee3d66.chunk.js"
   },
   {
     "revision": "e88a3e95b5364d46e95b35ae8c0dc27d",
-    "url": "/color-me-up-frontend/static/js/2.978d27e7.chunk.js.LICENSE.txt"
+    "url": "/color-me-up-frontend/static/js/2.beee3d66.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6a2ce852242f4af5e489",
-    "url": "/color-me-up-frontend/static/js/main.cabb154a.chunk.js"
+    "revision": "6d4cd1c1c9196d5121a1",
+    "url": "/color-me-up-frontend/static/js/main.2a5e672c.chunk.js"
   },
   {
     "revision": "b4073d0fa6b68122ddd4",
